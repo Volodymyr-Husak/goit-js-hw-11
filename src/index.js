@@ -108,6 +108,10 @@
 import './css/styles.css';
 import Notiflix from 'notiflix';
 import fetchPhoto from './fetchPhoto.js';
+// Описаний в документації
+import SimpleLightbox from 'simplelightbox';
+// Додатковий імпорт стилів
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 // import debounce from 'lodash.debounce';
 
@@ -117,8 +121,8 @@ const refs = {
   galleryEl: document.querySelector('.gallery'),
 };
 
-const { formEl, inputEl } = refs;
-// console.log(inputEl);
+const { formEl, inputEl, galleryEl } = refs;
+// console.log(galleryEl);
 let inputValue = '';
 
 inputEl.addEventListener('input', onInput);
@@ -131,37 +135,74 @@ function onInput(event) {
 // console.log(onInput());
 formEl.addEventListener('submit', onSubmit);
 
+let page = 1;
+
 function onSubmit(event) {
   event.preventDefault();
   const userSearch = inputValue;
   console.log(userSearch);
-
+  deleteCountryMarkup();
   fetchPhoto(userSearch)
-    .then(search => console.log(search))
+    .then(search => {
+      console.log(search);
+      return renderPhotoMarkup(search);
+    })
     .catch(error => console.log(error));
 
   // console.log(event.currentTarget);
 }
 
-function renderCountryMarkup(search) {
-  const markupCard = `<div class="photo-card">
-  <img src="" alt="" loading="lazy" />
+function deleteCountryMarkup() {
+  let photoCardEl = document.querySelectorAll('.photo-card');
+  photoCardEl?.forEach(element => element.remove());
+}
+// function deleteCountryMarkup() {
+//   let itemCountryEl = document.querySelectorAll('.item-country');
+//   let countryInfoItemEl = document.querySelector('.country-info-item');
+
+//   itemCountryEl?.forEach(item => item.remove());
+//   countryInfoItemEl?.remove();
+// }
+
+function renderPhotoMarkup(search) {
+  const hitsArr = search.hits;
+  // console.log(hitsArr);
+  if (!hitsArr.length) {
+    return Notiflix.Notify.failure(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
+  }
+  const totalHits = search.totalHits;
+  // console.log(search.totalHits);
+  Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
+
+  const markupCard = hitsArr
+    .map(
+      hit => `<div class="photo-card">
+  <img src="${hit.webformatURL}" alt="${hit.tags}" loading="lazy" width=300 height=200/>
   <div class="info">
     <p class="info-item">
-      <b>Likes</b>
+      <b>Likes</b><br>${hit.likes}
     </p>
     <p class="info-item">
-      <b>Views</b>
+      <b>Views</b><br>${hit.views}
     </p>
     <p class="info-item">
-      <b>Comments</b>
+      <b>Comments</b><br>${hit.comments}
     </p>
     <p class="info-item">
-      <b>Downloads</b>
+      <b>Downloads</b><br>${hit.downloads}
     </p>
   </div>
-</div>`;
+</div>`
+    )
+    .join('');
 
   return galleryEl.insertAdjacentHTML('beforeend', markupCard);
 }
-// }
+
+new SimpleLightbox('.gallery', {
+  /* options */
+  captionsData: 'alt',
+  captionDelay: 250,
+});

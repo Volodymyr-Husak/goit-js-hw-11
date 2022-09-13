@@ -29,7 +29,7 @@ export default async function fetchPhoto(userSearch) {
   // });
   // userSearch
   const response = await fetch(
-    `https://pixabay.com/api/?key=29882224-53e6cb6eb5c61ad27904c20c4&q=${userSearch}}&image_type=photo&orientation=horizontal&safesearch=true`
+    `https://pixabay.com/api/?key=29882224-53e6cb6eb5c61ad27904c20c4&q=${userSearch}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&`
   );
   const result = await response.json();
   return result;
