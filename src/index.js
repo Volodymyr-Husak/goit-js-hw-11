@@ -36,11 +36,11 @@ function onSubmit(event) {
   userSearch = inputValue;
   page = 1;
   if (!userSearch) {
-    deleteCountryMarkup();
+    deletePhotoMarkup();
     return;
   }
 
-  deleteCountryMarkup();
+  deletePhotoMarkup();
   fetchPhoto(userSearch, page)
     .then(search => {
       // console.log(search);
@@ -62,10 +62,17 @@ function onSubmit(event) {
 }
 
 let photoCardEl = [];
-function deleteCountryMarkup() {
-  photoCardEl = document.querySelectorAll('.photo-card');
-  console.log(photoCardEl.length);
-  photoCardEl?.forEach(element => element.remove());
+let photoLinkEl = [];
+
+function deletePhotoMarkup() {
+  // ==============photoCardEl=============
+  // photoCardEl = document.querySelectorAll('.photo-card');
+  // console.log(photoCardEl.length);
+  // photoCardEl?.forEach(element => element.remove());
+  // ==============photoLinkEl=============
+  photoLinkEl = document.querySelectorAll('.photo-link');
+  // console.log(photoCardEl.length);
+  photoLinkEl?.forEach(element => element.remove());
 }
 
 function renderPhotoMarkup(search) {
@@ -93,7 +100,7 @@ function renderPhotoMarkup(search) {
             </p>
           </div>
         </div>
-      </a>>`
+      </a>`
     )
     .join('');
 
