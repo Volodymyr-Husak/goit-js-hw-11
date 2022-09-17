@@ -55,14 +55,17 @@ body {
 
 .info-item {
   text-align: center;
-}
 
-/* .info-item:not(:last-child) {
-  /* margin-right: 5px; */
-/* } */    
+}
 
 #sentinel {
   /* width: 300px;
   height: 300px;
   background-color: tomato; */
+}
+
+.photo-link {
+  outline: none;
+  text-decoration: none;
+  padding: 2px 1px 0;
 }

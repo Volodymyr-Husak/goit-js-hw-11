@@ -104,7 +104,8 @@ function renderPhotoMarkup(search) {
     )
     .join('');
 
-  return galleryEl.insertAdjacentHTML('beforeend', markupCard);
+  galleryEl.insertAdjacentHTML('beforeend', markupCard);
+  galleryLightbox.refresh();
 }
 
 const galleryLightbox = new SimpleLightbox('.gallery a', {
@@ -113,9 +114,10 @@ const galleryLightbox = new SimpleLightbox('.gallery a', {
 });
 
 galleryLightbox.refresh();
-galleryLightbox.on('show.simplelightbox', function () {
-  // do something…
-});
+console.log(galleryLightbox);
+// galleryLightbox.on('show.simplelightbox', function () {
+//   // do something…
+// });
 
 // ========================================IntersectionObserver(Нескінченний скрол)=============================================
 // setTimeout(() => {
@@ -123,9 +125,7 @@ const onEntry = entries => {
   // console.log(entries);
   entries.forEach(entry => {
     if (entry.isIntersecting && userSearch !== '') {
-      console.log('Пора грузити ще');
-
-      galleryLightbox.refresh();
+      // console.log('Пора грузити ще');
 
       page += 1;
       let numberPages = totalHits / 40;
