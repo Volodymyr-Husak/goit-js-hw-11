@@ -3,6 +3,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import './css/styles.css';
 import Notiflix from 'notiflix';
+
 import fetchPhoto from './fetchPhoto.js';
 
 const refs = {
@@ -13,7 +14,6 @@ const refs = {
 };
 
 const { formEl, inputEl, galleryEl, sentinelEl } = refs;
-// console.log(galleryEl.query);
 
 let inputValue = '';
 let page = 0;
@@ -48,7 +48,9 @@ function onSubmit(event) {
       // console.log(totalHits);
       if (totalHits > 0) {
         Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
-        return renderPhotoMarkup(search);
+        // return renderPhotoMarkup(search);
+        renderPhotoMarkup(search);
+        scrollStart();
       }
       hitsArr = search.data.hits;
       // console.log(hitsArr);
@@ -61,7 +63,7 @@ function onSubmit(event) {
     .catch(error => console.log(error));
 }
 
-let photoCardEl = [];
+// let photoCardEl = [];
 let photoLinkEl = [];
 
 function deletePhotoMarkup() {
@@ -113,14 +115,8 @@ const galleryLightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
 });
 
-galleryLightbox.refresh();
-console.log(galleryLightbox);
-// galleryLightbox.on('show.simplelightbox', function () {
-//   // do something…
-// });
-
 // ========================================IntersectionObserver(Нескінченний скрол)=============================================
-// setTimeout(() => {
+
 const onEntry = entries => {
   // console.log(entries);
   entries.forEach(entry => {
@@ -138,7 +134,9 @@ const onEntry = entries => {
 
       fetchPhoto(userSearch, page)
         .then(search => {
-          return renderPhotoMarkup(search);
+          // return renderPhotoMarkup(search);
+          renderPhotoMarkup(search);
+          scrollMore();
         })
         .catch(error => console.log(error));
     }
@@ -151,6 +149,28 @@ const options = {
 const observer = new IntersectionObserver(onEntry, options);
 
 observer.observe(sentinelEl);
-// }, 5000);
 
 // ============================================================================================================================
+function scrollStart() {
+  const { height: formHeight } = document
+    .querySelector('.search-form')
+    .firstElementChild.getBoundingClientRect();
+  // console.log('ScrollStart');
+
+  window.scrollBy({
+    top: formHeight * 1.2,
+    behavior: 'smooth',
+  });
+}
+
+function scrollMore() {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+  // console.log('ScrollMore');
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
+}

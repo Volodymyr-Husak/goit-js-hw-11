@@ -12,7 +12,7 @@ body {
   line-height: 1.5;
 
   background-color: rgb(233, 218, 227);
-
+  
 }
 
 
@@ -31,7 +31,7 @@ body {
 .search-form {
   display: flex;
   justify-content: center;
-  background-color: rgb(80, 77, 250);
+   background-color: rgb(80, 77, 250);
   height: 40px;
  
 }
@@ -39,22 +39,29 @@ body {
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  /* width: 800px; */
+    justify-content: center;
+  }
+
+.photo-link{
+  color: black;
 }
 
 .photo-card {
   margin: 15px;
+  margin-top: 0;
   /* border: 2px solid rgb(0, 0, 0); */
 }
 
 .info {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 15px;
 }
 
 .info-item {
   text-align: center;
+  margin: 0;
+  
 
 }
 
